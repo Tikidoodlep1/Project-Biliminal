@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 	[SerializeField]
-	int jumpForce = 550;
+	int jumpForce = 15;
 	[SerializeField]
 	float playerWalkForce = 10f;
 
@@ -59,7 +59,10 @@ public class PlayerMovement : MonoBehaviour
 		if (jumpQueued)
 		{
 			//Add a vertical force to our movement if we need to jump then set our flag to false.
-			playerMovementVector = playerMovementVector + (player.transform.up * jumpForce);
+			//playerMovementVector = playerMovementVector + (player.transform.up * jumpForce);
+
+			//Doing jump force separately to use the VelocityChange force mode
+			player.AddForce(player.transform.up * jumpForce, ForceMode.VelocityChange);
 			jumpQueued = false;
 		}
 
@@ -70,8 +73,14 @@ public class PlayerMovement : MonoBehaviour
 			player.AddForce(playerMovementVector, ForceMode.Acceleration);
 		}
     }
-
+	
 	private bool isGrounded() {
-		return player.linearVelocity.y == 0;
+		//Debug lines to visually show the ray we're checking
+		if(Physics.Raycast(player.transform.position, player.transform.up * -1, 1f, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore)) {
+			Debug.DrawRay(player.transform.position, player.transform.up * -1, Color.green, 1f);
+		}else {
+			Debug.DrawRay(player.transform.position, player.transform.up * -1, Color.red, 1f);
+		}
+		return player.linearVelocity.y == 0 || Physics.Raycast(player.transform.position, player.transform.up * -1, 1f, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore);
 	}
 }

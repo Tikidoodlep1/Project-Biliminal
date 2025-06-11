@@ -1293,7 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34fd9062eb595df408254a761112a03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 550
+  jumpForce: 15
   playerWalkForce: 65
 --- !u!54 &1661852443
 Rigidbody:
