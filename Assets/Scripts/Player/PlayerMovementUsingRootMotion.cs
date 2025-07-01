@@ -27,12 +27,6 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 		playerMovementAction = InputSystem.actions.FindAction("Player/Move", true);
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 	private void FixedUpdate()
 	{
 		Vector3 input = playerMovementAction.ReadValue<Vector2>();
@@ -58,7 +52,7 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 	//NOT BEING USED RN
 	private void OnAnimatorIK(int layerIndex)
 	{
-		//Debug.Log("Using IK");
+		Debug.Log("Using IK");
 		AdjustFootTarget(AvatarIKGoal.LeftFoot);
 		AdjustFootTarget(AvatarIKGoal.RightFoot);
 		AdjustHipHeight();

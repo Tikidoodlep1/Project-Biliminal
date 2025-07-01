@@ -13,7 +13,7 @@ public class PlayerLookCoordinator : MonoBehaviour
 		player = this.gameObject.GetComponent<Rigidbody>();
 
 		//Check https://docs.unity3d.com/6000.1/Documentation/ScriptReference/GameObject.Find.html
-		playerCamera = GameObject.Find("PlayerBody/CinemachineCamera").transform;
+		playerCamera = this.gameObject.GetComponentInChildren<Camera>().transform;
     }
 
 	//Done on Update instead of FixedUpdate because it only affects visual objects, not physics related.
