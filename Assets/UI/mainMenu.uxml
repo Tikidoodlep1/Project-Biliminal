@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Label text="Biliminal" name="TitleLabel" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" selectable="false" display-tooltip-when-elided="false" focusable="false" style="font-size: 32px; -unity-text-align: middle-center; margin-top: 15%;" />
+    <ui:VisualElement name="ButtonContainer" style="flex-grow: 1; align-items: flex-start; justify-content: space-evenly; height: auto; align-self: auto; align-content: flex-start; margin-top: 5%; margin-right: 5%; margin-bottom: 5%; margin-left: 5%;">
+        <ui:Button text="Start Game" name="StartButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" style="width: 20%;" />
+        <ui:Button text="Settings" name="SettingsButton" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="1" style="width: 20%; height: auto;" />
+        <ui:Button text="Quit Game" enable-rich-text="false" emoji-fallback-support="false" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" tabindex="2" name="QuitButton" style="width: 20%;" />
+    </ui:VisualElement>
+</ui:UXML>
