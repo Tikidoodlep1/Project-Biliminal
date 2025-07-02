@@ -1,4 +1,5 @@
 using System.Threading;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +11,16 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 	public float footOffset = 0.1f;
 	public float pelvisAdjustmentSpeed = 5f;
 
+	public float lookAheadDistance = 10f;
+
 	private float lastPelvisY;
 	private float pelvisOffset;
+	private Vector3 deltaPos = Vector3.zero;
+	private Quaternion deltaRot = Quaternion.identity;
 
 	Animator animator;
 	Rigidbody player;
+	Transform playerCamera;
 
 	InputAction playerMovementAction;
 
@@ -23,6 +29,7 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
     {
 		animator = this.gameObject.GetComponent<Animator>();
 		player = this.gameObject.GetComponent<Rigidbody>();
+		playerCamera = this.gameObject.GetComponentInChildren<Camera>().transform;
 
 		playerMovementAction = InputSystem.actions.FindAction("Player/Move", true);
 	}
@@ -34,8 +41,14 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 		animator.SetFloat("dirX", input.x);
 		animator.SetFloat("dirZ", input.y);
 		animator.SetBool("grounded", isGrounded());
-	}
 
+
+		player.MovePosition(player.position + deltaPos);
+		player.MoveRotation(player.rotation * deltaRot);
+		deltaPos = Vector3.zero;
+		deltaRot = Quaternion.identity;
+	}
+	
 	private void OnAnimatorMove()
 	{
 		if(useRootMotion) {
@@ -43,9 +56,17 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 			Quaternion deltaRotation = animator.deltaRotation;
 
 			//Debug.Log(deltaPosition);
+			//Debug.DrawRay(player.transform.position + player.transform.up, deltaPosition.normalized * lookAheadDistance, Color.cyan, 0.5f);
+			//Debug.DrawRay(playerCamera.position, deltaPosition.normalized * lookAheadDistance, Color.cyan, 0.5f);
 
-			player.MovePosition(player.position + deltaPosition);
-			player.MoveRotation(player.rotation * deltaRotation);
+			if (!Physics.Raycast(player.transform.position + player.transform.up, deltaPosition.normalized * lookAheadDistance, lookAheadDistance, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore)
+				&& !Physics.Raycast(playerCamera.position, deltaPosition.normalized * lookAheadDistance, lookAheadDistance, LayerMask.GetMask("Default"), QueryTriggerInteraction.Ignore))
+			{
+				//Debug.Log("No Intersection from " + (player.transform.position + player.transform.up) + " to " + (player.transform.position + player.transform.up + (deltaPosition.normalized * lookAheadDistance)));
+				deltaPos += deltaPosition;
+			}
+
+			deltaRot *= deltaRotation;
 		}
 	}
 
@@ -53,9 +74,11 @@ public class PlayerMovementUsingRootMotion : MonoBehaviour
 	private void OnAnimatorIK(int layerIndex)
 	{
 		Debug.Log("Using IK");
-		AdjustFootTarget(AvatarIKGoal.LeftFoot);
-		AdjustFootTarget(AvatarIKGoal.RightFoot);
-		AdjustHipHeight();
+		//Unccomment the below lines if the print above ever shows up!!!
+
+		//AdjustFootTarget(AvatarIKGoal.LeftFoot);
+		//AdjustFootTarget(AvatarIKGoal.RightFoot);
+		//AdjustHipHeight();
 	}
 
 	private void AdjustFootTarget(AvatarIKGoal foot) {
