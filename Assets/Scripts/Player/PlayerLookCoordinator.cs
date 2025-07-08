@@ -1,7 +1,10 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerLookCoordinator : MonoBehaviour
 {
+	[RangeAttribute(0f,1f)]
+	public float turnTime = 0.5f;
 
 	Rigidbody player;
 	Transform playerCamera;
@@ -28,7 +31,11 @@ public class PlayerLookCoordinator : MonoBehaviour
 			rotateVector.y = y;
 
 			//Set the Euler Angles of the player transform to our rotation vector, which visually rotates our body
-			player.transform.eulerAngles = rotateVector;
+			Vector3 lerpedAngles = Vector3.zero;
+			lerpedAngles.x = Mathf.LerpAngle(player.transform.eulerAngles.x, rotateVector.x, turnTime);
+			lerpedAngles.y = Mathf.LerpAngle(player.transform.eulerAngles.y, rotateVector.y, turnTime);
+			lerpedAngles.z = Mathf.LerpAngle(player.transform.eulerAngles.z, rotateVector.z, turnTime);
+			player.transform.eulerAngles = lerpedAngles;
 		}
     }
 }

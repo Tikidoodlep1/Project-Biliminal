@@ -21,7 +21,7 @@ public class DoorOpenClose : Interactable
     }
 
 	public override void Interact(GameObject interactor) {
-		Debug.Log(interactor.name + " is interacting with Interactable animation " + this.interactableAnimationName + " with current state " + state);
+		//Debug.Log(interactor.name + " is interacting with Interactable animation " + this.interactableAnimationName + " with current state " + state);
 		if(state == STATE_CLOSED) {
 			animator.SetTrigger("Open");
 		}else {

@@ -24,12 +24,12 @@ public class PlayerInteraction : MonoBehaviour
     void Update()
     {
         if(touchingInteractable.Count > 0 && interact.WasPerformedThisFrame()) {
-			Debug.Log("Trying Interaction");
+			//Debug.Log("Trying Interaction");
 			GameObject closestToFacing = getClosestInteractableToFacing();
-			Debug.Log("Closest Interactable set to " + closestToFacing);
+			//Debug.Log("Closest Interactable set to " + closestToFacing);
 			if(closestToFacing != null) {
 				target = closestToFacing.GetComponent<Interactable>();
-				Debug.Log("Can Player Interact: " + target.CanInteract(this.gameObject));
+				//Debug.Log("Can Player Interact: " + target.CanInteract(this.gameObject));
 				if(target.CanInteract(this.gameObject)) {
 					target.Interact(this.gameObject);
 				}
@@ -60,13 +60,13 @@ public class PlayerInteraction : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
 	{
 		Interactable parent = other.gameObject.GetComponentInParent<Interactable>();
-		Debug.Log(parent);
+		//Debug.Log(parent);
 		
 		if(parent != null && !touchingInteractable.Contains(parent.gameObject)) {
 			touchingInteractable.Add(parent.gameObject);
 		}
 
-		Debug.Log("Entering:" + touchingInteractable.Count);
+		//Debug.Log("Entering:" + touchingInteractable.Count);
 	}
 
 	private void OnTriggerExit(Collider other) 
@@ -78,6 +78,6 @@ public class PlayerInteraction : MonoBehaviour
 			touchingInteractable.Remove(parent.gameObject);
 		}
 
-		Debug.Log("Leaving: " + touchingInteractable.Count);
+		//Debug.Log("Leaving: " + touchingInteractable.Count);
 	}
 }

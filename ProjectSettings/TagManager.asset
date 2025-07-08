@@ -12,7 +12,7 @@ TagManager:
   - Entity
   - Water
   - UI
-  - 
+  - NonPhysicsEntityCollision
   - 
   - 
   - 
