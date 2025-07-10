@@ -25,19 +25,23 @@ public class PlayerInteraction : MonoBehaviour
     {
         if(touchingInteractable.Count > 0 && interact.WasPerformedThisFrame()) {
 			//Debug.Log("Trying Interaction");
-			GameObject closestToFacing = getClosestInteractableToFacing();
+			GameObject closestToFacing = GetClosestInteractableToFacing();
 			//Debug.Log("Closest Interactable set to " + closestToFacing);
-			if(closestToFacing != null) {
+			if(CanInteract(closestToFacing)) {
 				target = closestToFacing.GetComponent<Interactable>();
-				//Debug.Log("Can Player Interact: " + target.CanInteract(this.gameObject));
-				if(target.CanInteract(this.gameObject)) {
-					target.Interact(this.gameObject);
-				}
+				target.Interact(this.gameObject);
 			}
 		}
     }
 
-	private GameObject getClosestInteractableToFacing() {
+	private bool CanInteract(GameObject target) {
+		if(target != null) {
+			return true;
+		}
+		return false;
+	}
+
+	private GameObject GetClosestInteractableToFacing() {
 		GameObject closestToFacing = null;
 		foreach (GameObject obj in touchingInteractable)
 		{

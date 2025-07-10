@@ -124,10 +124,11 @@ public class PlayerMovement : MonoBehaviour
 
 			player.AddForce(accelerationStep, ForceMode.Acceleration);
 		}
-		
+
+		Vector3 localVelocity = player.transform.InverseTransformDirection(player.linearVelocity);
 		animator.SetFloat("speed", Mathf.Lerp(animator.GetFloat("speed"), player.linearVelocity.magnitude / (sprintSpeed * 0.45f), Time.fixedDeltaTime));
-		animator.SetFloat("dirX", playerInput.x);
-		animator.SetFloat("dirZ", playerInput.y);
+		animator.SetFloat("dirX", Mathf.Lerp(animator.GetFloat("dirX"), localVelocity.x / (walkSpeed * 0.45f), Time.fixedDeltaTime)); //playerInput.x
+		animator.SetFloat("dirZ", Mathf.Lerp(animator.GetFloat("dirZ"), localVelocity.z / (walkSpeed * 0.45f), Time.fixedDeltaTime)); //playerInput.y
 		animator.SetBool("grounded", isGrounded());
 	}
 
